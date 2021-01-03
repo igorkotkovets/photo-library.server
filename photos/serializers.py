@@ -1,12 +1,16 @@
-from rest_framework import serializers 
 from photos.models import Photo
+from rest_framework.serializers import Serializer, ModelSerializer, FileField
  
  
-class PhotoSerializer(serializers.ModelSerializer):
- 
+class PhotoSerializer(ModelSerializer):
     class Meta:
         model = Photo
         fields = ('id',
-                  'uuid',
-                  'description',
-                  'published')
+                  'content',
+                  'upload_time')
+
+# Serializers define the API representation.
+class UploadSerializer(Serializer):
+    file_uploaded = FileField()
+    class Meta:
+        fields = ['file_uploaded']
