@@ -1,11 +1,20 @@
 Tutorial page:
 https://bezkoder.com/django-rest-api/#Django_Rest_Api_application_Overview
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models
+
 
 Upload file:
 https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 https://www.django-rest-framework.org/api-guide/parsers/#fileuploadparser
 https://www.goodcode.io/articles/django-rest-framework-file-upload/
 
+Authorization:
+https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme
+
+
+
+ADMIN WEBSITE:
+http://127.0.0.1:8080/admin
 
 
 
