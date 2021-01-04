@@ -6,8 +6,9 @@ class PhotoSerializer(ModelSerializer):
     class Meta:
         model = Photo
         fields = ('id',
-                  'content',
-                  'upload_time')
+                'uuid',
+                'content',
+                'upload_time')
 
 # Serializers define the API representation.
 class UploadSerializer(Serializer):

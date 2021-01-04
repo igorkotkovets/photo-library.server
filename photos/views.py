@@ -7,6 +7,8 @@ from rest_framework import status
  
 from photos.models import Photo
 from photos.serializers import PhotoSerializer
+from rest_framework.decorators import api_view
+from rest_framework.decorators import parser_classes
 
 import os
 from django.http import StreamingHttpResponse
@@ -16,26 +18,26 @@ from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 
 
-from django.http import HttpResponse
-from django.views import View
+@api_view(['GET', 'POST', 'DELETE'])
+@parser_classes([FileUploadParser])
+def photo(request):
+    logger = logging.getLogger('/api/photos')
 
-class PhotosView(View):
-    parser_class = (FileUploadParser,)
-    def get(self, request, format=None):
-        logger = logging.getLogger('/api/photos')
-        photos = Photo.objects.all()   
-        uuid = request.GET.get('uuid', None)
+    if request.method == 'GET':
+        photos = Photo.objects.all()
+        
+        uuid = request.query_params.get('uuid', None)
         if uuid is not None:
             photos = photos.filter(uuid__icontains=uuid)
         
         photo_serializer = PhotoSerializer(photos, many=True)
         return JsonResponse(photo_serializer.data, safe=False)
-
-
-    def post(self, request, format=None):
+        # 'safe=False' for objects serialization
+ 
+    elif request.method == 'POST':
         logger = logging.getLogger('/api/photos')
         if 'file' not in request.data:
-            return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(photo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         f = request.data['file']
         filename = f.name
@@ -44,9 +46,7 @@ class PhotosView(View):
         photo_serializer = PhotoSerializer(photo)
 
         return JsonResponse(photo_serializer.data, status=status.HTTP_201_CREATED)
-
-
-    def delete(self, request, format=None):
-        logger = logging.getLogger('/api/photos')
-        count = Photo.objects.all().delete()    
+    
+    elif request.method == 'DELETE':
+        count = Photo.objects.all().delete()
         return JsonResponse({'message': '{} Photos were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
