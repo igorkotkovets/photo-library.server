@@ -15,6 +15,7 @@ https://www.goodcode.io/articles/django-rest-framework-file-upload/
 
 Authorization:
 https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme
+https://www.django-rest-framework.org/api-guide/permissions/
 
 
 
@@ -31,9 +32,14 @@ $ python manage.py makemigrations photos
 $ python manage.py migrate photos
 $ python manage.py runserver 8080
 
+#CREATE USER
+$ python manage.py createsuperuser --username vitor --email vitor@example.com
+
 
 API:
 $ curl -X GET http://127.0.0.1:8080/api/photos
 * Upload image
 $ curl -d "@2.txt" -X POST -H 'Content-Disposition: attachment; filename=upload.jpg' http://127.0.0.1:8080/api/photos
+
+
 

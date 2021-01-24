@@ -7,7 +7,8 @@ from rest_framework import status
  
 from photos.models import Photo
 from photos.serializers import PhotoSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import parser_classes
 
 import os
@@ -17,8 +18,8 @@ from rest_framework.exceptions import ParseError
 
 from rest_framework.response import Response
 
-
 @api_view(['GET', 'POST', 'DELETE'])
+@permission_classes([IsAuthenticated])
 @parser_classes([FileUploadParser])
 def photo(request):
     logger = logging.getLogger('/api/photos')
